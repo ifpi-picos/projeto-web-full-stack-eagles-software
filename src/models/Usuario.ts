@@ -1,13 +1,13 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../sequelize';
 
-class Usuario extends Model {
+class UsuarioModel extends Model {
   public nome!: string;
   public email!: string;
   public senha!: string;
 }
 
-Usuario.init(
+UsuarioModel.init(
   {
     nome: {
       type: DataTypes.STRING,
@@ -26,5 +26,5 @@ Usuario.init(
   }
 );
 
-export default Usuario;
+export default UsuarioModel;
 
