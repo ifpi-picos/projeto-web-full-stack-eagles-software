@@ -30,7 +30,7 @@ router.post('/',
     const {nome, email, senha} = req.body
     try{
     await usuarioService.adicionar({nome, email, senha})
-    res.status(201).send('Usuário adicionado com sucesso!')
+    res.status(201).json({message:"Usuário adicionado com sucesso!"})
     } catch(erro){
         res.status(400).send(erro.message)
     }
