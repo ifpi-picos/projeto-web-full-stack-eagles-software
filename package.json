@@ -2,26 +2,17 @@
   "name": "eagles-software-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "repository": "https://github.com/ifpi-picos/projeto-web-full-stack-eagles-software.git",
+  "author": "João Victor <joaovictorpereiraborges99@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "sequelize": "sequelize",
-    "build": "tsc",
-    "start": "ts-node-dev src/index.ts"
-  },
-  "devDependencies": {
-    "@types/multer": "^1.4.9",
-    "@types/sequelize": "^4.28.16",
-    "sequelize-cli": "^6.6.1",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.2.2"
+    "start": "node src/app.js"
   },
   "dependencies": {
-    "@types/express": "^4.17.19",
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1",
+    "express-validator": "^7.0.1",
     "pg": "^8.11.3",
-    "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.33.0",
-    "sequelize-typescript": "^2.1.5"
+    "pg-promise": "^11.5.4",
+    "sequelize": "^6.33.0"
   }
 }
