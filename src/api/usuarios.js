@@ -3,7 +3,15 @@ const router = express.Router()
 const {usuario} = require('../models')
 const UsuarioService = require('../services/usuarios')
 const {body, check, validationResult} = require('express-validator')
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 
+dotenv.config();
+const jwtSecret = process.env.JWT_SECRET;
+
+function generateToken(userId) {
+  return jwt.sign({ userId }, jwtSecret, { expiresIn: '1h' });
+}
 
 const usuarioService = new UsuarioService(usuario)
 
@@ -70,6 +78,29 @@ router.delete('/:id', async (req, res) => {
     } catch (erro) {
       res.status(400).send(erro.message);
     }
+});
+
+//Autenticar Usuário
+router.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    const user = await usuario.findOne({ where: { email } });
+
+    if (!user || user.senha !== senha) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+
+    // Gerar um novo token
+    const token = generateToken(user.id);
+
+    // Retornar os dados do usuário junto com o token
+    res.status(200).json({ user: { id: user.id, nome: user.nome, email: user.email }, token });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
 });
 
 module.exports = router
