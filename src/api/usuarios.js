@@ -22,27 +22,38 @@ router.get('/', async (req, res) => {
 })
 
 //Criar Usuário
-router.post('/',  
+router.post('/',
   body('nome').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
+  check('email').not().isEmpty().isEmail(),
   check('senha')
     .not().isEmpty()
-    .isLength({min: 8})
+    .isLength({ min: 8 })
     .withMessage('A senha deve conter no mínimo 8 caracteres!'),
 
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({errors: errors.array()})
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const {nome, email, senha} = req.body
-    try{
-    await usuarioService.adicionar({nome, email, senha})
-    res.status(201).json({message:"Usuário adicionado com sucesso!"})
-    } catch(erro){
-        res.status(400).send(erro.message)
+    const { nome, email, senha } = req.body;
+
+    try {
+      const existingUserByEmail = await usuario.findOne({ where: { email } });
+
+      if (existingUserByEmail) {
+        return res.status(400).json({ error: 'Já existe um usuário cadastrado com esse e-mail!' });
+      }
+
+      await usuarioService.adicionar({ nome, email, senha });
+
+      res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
+      
+    } catch (erro) {
+      res.status(400).send(erro.message);
     }
-})
+  }
+);
 
 //Atualizar Usuário
 router.put('/:id', 
