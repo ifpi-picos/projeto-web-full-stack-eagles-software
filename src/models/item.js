@@ -20,6 +20,10 @@ const item = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        imagem_URL: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
     }, {
         tableName: 'item'
     })

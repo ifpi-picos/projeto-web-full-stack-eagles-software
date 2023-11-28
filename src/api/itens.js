@@ -20,6 +20,7 @@ router.post('/',
   check('armazenado').not().isEmpty(),
   check('data').not().isEmpty(),
   check('detalhes').not().isEmpty(),
+  check('imagem_URL'),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -27,9 +28,9 @@ router.post('/',
         return res.status(400).json({errors: errors.array()})
     }
 
-    const {achadoPor, local, armazenado, data, detalhes} = req.body
+    const {achadoPor, local, armazenado, data, detalhes, imagem_URL} = req.body
     try{
-    await itemService.adicionar({achadoPor, local, armazenado, data, detalhes})
+    await itemService.adicionar({achadoPor, local, armazenado, data, detalhes, imagem_URL})
     res.status(201).send('Item adicionado com sucesso!')
     } catch(erro){
         res.status(400).send(erro.message)
@@ -44,6 +45,8 @@ router.put('/:id',
     check('armazenado').not().isEmpty(),
     check('data').not().isEmpty(),
     check('detalhes').not().isEmpty(),
+    check('imagem_URL'),
+
     async (req, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -51,10 +54,10 @@ router.put('/:id',
       }
   
       const itemId = req.params.id;
-      const {achadoPor, local, armazenado, data, detalhes} = req.body;
+      const {achadoPor, local, armazenado, data, detalhes, imagem_URL} = req.body;
   
       try {
-        await itemService.atualizar(itemId, {achadoPor, local, armazenado, data, detalhes});
+        await itemService.atualizar(itemId, {achadoPor, local, armazenado, data, detalhes, imagem_URL});
         res.status(200).send('Item atualizado com sucesso!');
       } catch (erro) {
         res.status(400).send(erro.message);
