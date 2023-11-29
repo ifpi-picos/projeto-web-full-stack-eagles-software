@@ -75,8 +75,28 @@ router.delete('/:id', async (req, res) => {
     } catch (erro) {
       res.status(400).send(erro.message);
     }
-  });
-  
+});
 
+// Listar Itens em ordem cronológica (mais recente para o mais antigo)
+router.get('/recentes', async (req, res) => {
+  try {
+      const itens = await itemService.get();
+      const itensOrdenados = itens.sort((a, b) => new Date(b.data) - new Date(a.data));
+      res.status(200).json(itensOrdenados);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
+
+// Listar Itens em ordem cronológica (mais antigo para o mais recente)
+router.get('/antigos', async (req, res) => {
+  try {
+      const itens = await itemService.get();
+      const itensOrdenados = itens.sort((a, b) => new Date(a.data) - new Date(b.data));
+      res.status(200).json(itensOrdenados);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
 
 module.exports = router
