@@ -11,8 +11,12 @@ const usuario = (sequelize, DataTypes) => {
         },
         senha: {
             type: DataTypes.STRING,
-            allowNull: false,
-        }, 
+            allowNull: false
+        },
+        usuario_IMG: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
     }, {
         tableName: 'usuario'
     })

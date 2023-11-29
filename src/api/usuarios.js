@@ -29,6 +29,7 @@ router.post('/',
     .not().isEmpty()
     .isLength({ min: 8 })
     .withMessage('A senha deve conter no mínimo 8 caracteres!'),
+  check('usuario_IMG'),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -36,7 +37,7 @@ router.post('/',
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, usuario_IMG} = req.body;
 
     try {
       const existingUserByEmail = await usuario.findOne({ where: { email } });
@@ -45,7 +46,7 @@ router.post('/',
         return res.status(400).json({ error: 'Já existe um usuário cadastrado com esse e-mail!' });
       }
 
-      await usuarioService.adicionar({ nome, email, senha });
+      await usuarioService.adicionar({ nome, email, senha, usuario_IMG});
 
       res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
       
@@ -60,6 +61,7 @@ router.put('/:id',
     body('nome').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
     check('email').not().isEmpty(),
     check('senha').not().isEmpty().isLength({min: 8}).withMessage('A senha deve conter no mínimo 8 caracteres!'),
+    check('usuario_IMG'),
   
     async (req, res) => {
       const errors = validationResult(req);
@@ -68,10 +70,10 @@ router.put('/:id',
       }
   
       const usuarioId = req.params.id;
-      const {nome, email, senha} = req.body;
+      const {nome, email, senha, usuario_IMG} = req.body;
   
       try {
-        await usuarioService.atualizar(usuarioId, {nome, email, senha});
+        await usuarioService.atualizar(usuarioId, {nome, email, senha, usuario_IMG});
         res.status(200).send('Usuário atualizado com sucesso!');
       } catch (erro) {
         res.status(400).send(erro.message);
