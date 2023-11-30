@@ -99,4 +99,48 @@ router.get('/antigos', async (req, res) => {
   }
 });
 
+// Listar itens com base no campo "AchadoPor"
+router.get('/pesquisar/achadoPor/:nome', async (req, res) => {
+  const nome = req.params.nome;
+  try {
+      const itens = await itemService.pesquisarPorAchadoPor(nome);
+      res.status(200).json(itens);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
+
+//Listar itens com base no campo "Armazenado"
+router.get('/pesquisar/armazenado/:armazenado', async (req, res) => {
+  const armazenado = req.params.armazenado;
+  try {
+      const itens = await itemService.pesquisarPorArmazenado(armazenado);
+      res.status(200).json(itens);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
+
+// Listar itens com base no campo "Local"
+router.get('/pesquisar/local/:local', async (req, res) => {
+  const local = req.params.local;
+  try {
+      const itens = await itemService.pesquisarPorLocal(local);
+      res.status(200).json(itens);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
+
+// Listar itens com base no campo "Detalhes"
+router.get('/pesquisar/detalhes/:termo', async (req, res) => {
+  const termo = req.params.termo;
+  try {
+      const itens = await itemService.pesquisarPorDetalhes(termo);
+      res.status(200).json(itens);
+  } catch (erro) {
+      res.status(500).send(erro.message);
+  }
+});
+
 module.exports = router
