@@ -14,13 +14,26 @@ router.get('/', async (req, res) => {
 })
 
 //Criar Itens
-router.post('/',  
-  body('achadoPor').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-  check('local').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
-  check('armazenado').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
-  check('data').not().isEmpty(),
-  check('detalhes').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
-  check('imagem_URL'),
+router.post('/', 
+    body('achadoPor')
+      .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
+      .escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
+
+    check('local')
+      .not().isEmpty().withMessage('O campo "local" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+
+    check('armazenado')
+      .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+
+    check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
+
+    check('detalhes')
+      .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+
+    check('imagem_URL'),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -39,12 +52,25 @@ router.post('/',
 })
 
 //Atualizar Item
-router.put('/:id', 
-    body('achadoPor').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-    check('local').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
-    check('armazenado').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
-    check('data').not().isEmpty(),
-    check('detalhes').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
+router.put('/:id',
+    body('achadoPor')
+      .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
+      .escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
+
+    check('local')
+      .not().isEmpty().withMessage('O campo "local" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+
+    check('armazenado')
+      .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+
+    check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
+
+    check('detalhes')
+      .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
+      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+
     check('imagem_URL'),
 
     async (req, res) => {
