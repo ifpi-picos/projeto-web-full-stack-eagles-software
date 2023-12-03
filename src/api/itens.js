@@ -16,10 +16,10 @@ router.get('/', async (req, res) => {
 //Criar Itens
 router.post('/',  
   body('achadoPor').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-  check('local').not().isEmpty(),
-  check('armazenado').not().isEmpty(),
+  check('local').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
+  check('armazenado').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
   check('data').not().isEmpty(),
-  check('detalhes').not().isEmpty(),
+  check('detalhes').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
   check('imagem_URL'),
 
   async (req, res) => {
@@ -41,10 +41,10 @@ router.post('/',
 //Atualizar Item
 router.put('/:id', 
     body('achadoPor').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-    check('local').not().isEmpty(),
-    check('armazenado').not().isEmpty(),
+    check('local').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
+    check('armazenado').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
     check('data').not().isEmpty(),
-    check('detalhes').not().isEmpty(),
+    check('detalhes').not().isEmpty().escape().matches(/^[a-zA-Z0-9\s]+$/),
     check('imagem_URL'),
 
     async (req, res) => {
