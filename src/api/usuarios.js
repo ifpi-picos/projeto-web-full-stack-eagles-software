@@ -116,4 +116,37 @@ router.post('/login', async (req, res) => {
   }
 });
 
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token não fornecido' });
+  }
+
+  jwt.verify(token.split(' ')[1], jwtSecret, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: 'Token inválido' });
+    }
+    req.userId = user.userId;
+    next();
+  });
+};
+
+// Rota para obter o perfil do usuário
+router.get('/perfil', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await usuario.findByPk(userId, { attributes: ['nome', 'email', 'usuario_IMG'] });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    res.status(200).json({ nome: user.nome, email: user.email, usuario_IMG: user.usuario_IMG });
+
+  } catch (error) {
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
 module.exports = router
