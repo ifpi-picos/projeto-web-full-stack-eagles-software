@@ -149,4 +149,98 @@ router.get('/perfil', authenticateToken, async (req, res) => {
   }
 });
 
+// Rotas para alteração individual de cada atributo
+
+// Atualizar Atributo Nome do Usuário
+router.put('/:id/nome',
+  body('nome').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)*$/),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const usuarioId = req.params.id;
+    const { nome } = req.body;
+
+    try {
+      await usuarioService.atualizar(usuarioId, { nome });
+      res.status(200).send('Nome do usuário atualizado com sucesso!');
+    } catch (erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+);
+
+// Atualizar Atributo Email do Usuário
+router.put('/:id/email',
+  body('email').not().isEmpty().isEmail(),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const usuarioId = req.params.id;
+    const { email } = req.body;
+
+    try {
+      await usuarioService.atualizar(usuarioId, { email });
+      res.status(200).send('Email do usuário atualizado com sucesso!');
+    } catch (erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+);
+
+// Atualizar Atributo Foto do Usuário
+router.put('/:id/foto',
+  check('usuario_IMG'),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const usuarioId = req.params.id;
+    const { usuario_IMG } = req.body;
+
+    try {
+      await usuarioService.atualizar(usuarioId, { usuario_IMG });
+      res.status(200).send('Foto do usuário atualizada com sucesso!');
+    } catch (erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+);
+
+// Atualizar Atributo Senha do Usuário
+router.put('/:id/senha',
+  check('senha')
+    .not().isEmpty()
+    .isLength({ min: 8 })
+    .withMessage('A senha deve conter no mínimo 8 caracteres!'),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const usuarioId = req.params.id;
+    const { senha } = req.body;
+
+    try {
+      await usuarioService.atualizar(usuarioId, { senha });
+      res.status(200).send('Senha do usuário atualizada com sucesso!');
+    } catch (erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+);
+
+
 module.exports = router
