@@ -23,19 +23,19 @@ router.post('/',
   check('local')
     .not().isEmpty().withMessage('O campo "local" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°ºª\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
 
   check('armazenado')
     .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°ºª\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
 
   check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
 
   check('detalhes')
     .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°!?#+*%@"'=ªº|\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
 
   check('imagem_URL').trim(),
 
@@ -66,19 +66,19 @@ router.put('/:id',
   check('local')
     .not().isEmpty().withMessage('O campo "local" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°ºª\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
 
   check('armazenado')
     .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°ºª\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
 
   check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
 
   check('detalhes')
     .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
     .trim()
-    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~,.;:/()°!?#+*%@"'=ºª|\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
 
   check('imagem_URL').trim(),
 
