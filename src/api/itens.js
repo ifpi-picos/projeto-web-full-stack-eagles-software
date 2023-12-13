@@ -13,27 +13,31 @@ router.get('/', async (req, res) => {
     res.status(200).json(itens)
 })
 
-//Criar Itens
+// Criar Itens
 router.post('/', 
-    body('achadoPor')
-      .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
-      .escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
+  body('achadoPor')
+    .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
 
-    check('local')
-      .not().isEmpty().withMessage('O campo "local" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+  check('local')
+    .not().isEmpty().withMessage('O campo "local" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
 
-    check('armazenado')
-      .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+  check('armazenado')
+    .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
 
-    check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
+  check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
 
-    check('detalhes')
-      .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+  check('detalhes')
+    .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
 
-    check('imagem_URL'),
+  check('imagem_URL').trim(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -41,55 +45,61 @@ router.post('/',
         return res.status(400).json({errors: errors.array()})
     }
 
-    const {achadoPor, local, armazenado, data, detalhes, imagem_URL} = req.body
-    try{
-    await itemService.adicionar({achadoPor, local, armazenado, data, detalhes, imagem_URL})
-    res.status(201).send('Item adicionado com sucesso!')
-    } catch(erro){
-        res.status(400).send(erro.message)
+    const {achadoPor, local, armazenado, data, detalhes, imagem_URL} = req.body;
+    try {
+      await itemService.adicionar({achadoPor, local, armazenado, data, detalhes, imagem_URL});
+      res.status(201).send('Item adicionado com sucesso!');
+    } catch(erro) {
+      res.status(400).send(erro.message);
     }
+  }
+);
 
-})
 
-//Atualizar Item
+// Atualizar Item
 router.put('/:id',
-    body('achadoPor')
-      .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
-      .escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
+  body('achadoPor')
+    .not().isEmpty().withMessage('O campo "achadoPor" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "achadoPor" não pode conter caracteres especiais.'),
 
-    check('local')
-      .not().isEmpty().withMessage('O campo "local" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
+  check('local')
+    .not().isEmpty().withMessage('O campo "local" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "local" não pode conter caracteres especiais.'),
 
-    check('armazenado')
-      .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
+  check('armazenado')
+    .not().isEmpty().withMessage('O campo "armazenado" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "armazenado" não pode conter caracteres especiais.'),
 
-    check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
+  check('data').not().isEmpty().withMessage('O campo "data" é obrigatório.'),
 
-    check('detalhes')
-      .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
-      .escape().matches(/^[a-zA-Z0-9\s]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
+  check('detalhes')
+    .not().isEmpty().withMessage('O campo "descrição" é obrigatório.')
+    .trim()
+    .matches(/^[a-zA-Z0-9À-ÖØ-öø-ÿ'`´^~\s-]+$/).withMessage('O campo "descrição" não pode conter caracteres especiais.'),
 
-    check('imagem_URL'),
+  check('imagem_URL').trim(),
 
-    async (req, res) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-          return res.status(400).json({errors: errors.array()})
-      }
-  
-      const itemId = req.params.id;
-      const {achadoPor, local, armazenado, data, detalhes, imagem_URL} = req.body;
-  
-      try {
-        await itemService.atualizar(itemId, {achadoPor, local, armazenado, data, detalhes, imagem_URL});
-        res.status(200).send('Item atualizado com sucesso!');
-      } catch (erro) {
-        res.status(400).send(erro.message);
-      }
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
-  );
+
+    const itemId = req.params.id;
+    const { achadoPor, local, armazenado, data, detalhes, imagem_URL } = req.body;
+
+    try {
+      await itemService.atualizar(itemId, { achadoPor, local, armazenado, data, detalhes, imagem_URL });
+      res.status(200).send('Item atualizado com sucesso!');
+    } catch (erro) {
+      res.status(400).send(erro.message);
+    }
+  }
+);
+
   
 //Deletar Item
 router.delete('/:id', async (req, res) => {

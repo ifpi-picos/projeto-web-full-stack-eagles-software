@@ -24,12 +24,12 @@ router.get('/', async (req, res) => {
 //Criar Usuário
 router.post('/',
   body('nome').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-  check('email').not().isEmpty().isEmail(),
+  check('email').not().isEmpty().trim().isEmail(),
   check('senha')
-    .not().isEmpty()
+    .not().isEmpty().trim()
     .isLength({ min: 8 })
     .withMessage('A senha deve conter no mínimo 8 caracteres!'),
-  check('usuario_IMG'),
+  check('usuario_IMG').trim(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -59,9 +59,9 @@ router.post('/',
 //Atualizar Usuário
 router.put('/:id', 
     body('nome').not().isEmpty().trim().escape().matches(/^[a-zA-ZÀ-ÖØ-öø-ÿ]+(?: [a-zA-ZÀ-ÖØ-öø-ÿ]+)?$/),
-    check('email').not().isEmpty(),
-    check('senha').not().isEmpty().isLength({min: 8}).withMessage('A senha deve conter no mínimo 8 caracteres!'),
-    check('usuario_IMG'),
+    check('email').not().isEmpty().trim(),
+    check('senha').not().isEmpty().trim().isLength({min: 8}).withMessage('A senha deve conter no mínimo 8 caracteres!'),
+    check('usuario_IMG').trim(),
   
     async (req, res) => {
       const errors = validationResult(req);
@@ -175,7 +175,7 @@ router.put('/:id/nome',
 
 // Atualizar Atributo Email do Usuário
 router.put('/:id/email',
-  body('email').not().isEmpty().isEmail(),
+  body('email').not().isEmpty().trim().isEmail(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -197,7 +197,7 @@ router.put('/:id/email',
 
 // Atualizar Atributo Foto do Usuário
 router.put('/:id/foto',
-  check('usuario_IMG'),
+  check('usuario_IMG').trim(),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -220,7 +220,7 @@ router.put('/:id/foto',
 // Atualizar Atributo Senha do Usuário
 router.put('/:id/senha',
   check('senha')
-    .not().isEmpty()
+    .not().isEmpty().trim()
     .isLength({ min: 8 })
     .withMessage('A senha deve conter no mínimo 8 caracteres!'),
 
