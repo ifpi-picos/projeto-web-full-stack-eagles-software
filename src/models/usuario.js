@@ -27,7 +27,6 @@ const usuario = (sequelize, DataTypes) => {
         tableName: 'usuario',
         timestamps: false 
     });
-
     return Usuario;
 }
 
