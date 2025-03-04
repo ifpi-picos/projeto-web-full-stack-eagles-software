@@ -1,5 +1,11 @@
 const item = (sequelize, DataTypes) => {
     const Item = sequelize.define('Item', {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+        },
         achadoPor: {
             type: DataTypes.STRING,
             allowNull: false
@@ -23,12 +29,13 @@ const item = (sequelize, DataTypes) => {
         imagem_URL: {
             type: DataTypes.STRING(255),
             allowNull: true
-        },
+        }
     }, {
-        tableName: 'item'
-    })
+        tableName: 'item',
+        timestamps: false 
+    });
 
-    return Item
+    return Item;
 }
 
-module.exports = item
+module.exports = item;
